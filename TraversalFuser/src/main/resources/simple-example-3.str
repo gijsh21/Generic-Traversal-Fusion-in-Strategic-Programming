@@ -1,0 +1,47 @@
+module test
+imports libstratego-lib signatures/Stratego-Sugar
+
+signature
+  sorts
+    Exp
+    Int
+
+  constructors
+    Z : Int
+    S : Int -> Int
+    Null : Exp
+    E : Exp * Exp * Int * Int * Int -> Exp
+    Plus : Int * Int -> Int
+    Mult : Int * Int -> Int
+
+strategies
+  prog = topdown(r1); topdown(r2)
+
+rules
+  r1 :
+    E(l, r, v, x, y) -> E(l, r, Plus(v, S(Z())), x, y)
+
+  r2 :
+    E(l, r, v, x, y) -> E(l, r, v, Plus(x, S(Z())), y)
+
+  r1 :
+    Z() -> Z()
+  r1 :
+    S(n) -> S(n)
+  r1 :
+    Null() -> Null()
+  r1 :
+    Plus(a, b) -> Plus(a, b)
+  r1 :
+    Mult(a, b) -> Mult(a, b)
+
+  r2 :
+    Z() -> Z()
+  r2 :
+    S(n) -> S(n)
+  r2 :
+    Null() -> Null()
+  r2 :
+    Plus(a, b) -> Plus(a, b)
+  r2 :
+    Mult(a, b) -> Mult(a, b)

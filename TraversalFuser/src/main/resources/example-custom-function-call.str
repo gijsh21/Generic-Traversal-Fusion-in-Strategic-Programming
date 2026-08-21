@@ -1,0 +1,37 @@
+module test
+imports libstratego-lib signatures/Stratego-Sugar
+
+signature
+  sorts
+    Exp
+
+  constructors
+    Null : Exp
+    A : Exp * Exp * Int * Int -> Exp
+    B : Exp * Int -> Exp
+
+strategies
+  prog = topdown(r1); cheese
+  cheese = topdown(r2)
+
+rules
+  r1 :
+    Null() -> Null()
+
+  r1 :
+    A(l, r, a, b) -> A(l, r, (<add> (a, b)), b)
+
+  r1 :
+    B(c, v) -> B(c, (<add> (v, 1)))
+
+  r2 :
+      Null() -> Null()
+
+  r2 :
+      A(A(ll, lr, la, lb), r, a, b) -> A(A(ll, lr, la, lb), r, (<add> (a, la)), b)
+
+  r2 :
+      A(B(c, v), r, a, b) -> A(B(c, v), r, (<add> (a, v)), b)
+
+  r2 :
+      B(c, v) -> B(c, (<add> (v, 1)))

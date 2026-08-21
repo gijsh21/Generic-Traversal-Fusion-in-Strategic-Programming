@@ -1,0 +1,21 @@
+module test
+imports libstratego-lib signatures/Stratego-Sugar
+
+signature
+  sorts
+    Bool
+
+  constructors
+    True : Bool
+	False : Bool
+	And : Bool * Bool -> Bool
+	Or : Bool * Bool -> Bool
+	Not : Bool -> Bool
+
+strategies
+  prog = topdown(DeMorgan); topdown(DeMorgan)
+ 
+ 
+rules
+  DeMorgan :
+    Not(And(e1, e2)) -> Or(Not(e1), Not(e2))
