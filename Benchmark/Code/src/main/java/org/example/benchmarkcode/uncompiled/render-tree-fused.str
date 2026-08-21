@@ -1,0 +1,494 @@
+module render-tree-fused
+imports libstratego-lib
+
+signature
+  sorts
+    D
+    Info
+    Data
+    PageListNode
+    P
+    HorizontalContainerListNode
+    H
+    ElementListNode
+    E
+    ListItems
+
+  constructors
+    Abs : Mode
+    Rel : Mode
+    Flex : Mode
+    FontInfo : Int * Int * Int -> Info
+    AllData : Int * Int * Int * Int * Real * Mode * Info * Int -> Data
+  
+    Document : Info * PageListNode -> D
+    
+    PageListInner : P * PageListNode -> PageListNode
+    PageListEnd : P -> PageListNode
+    
+    Page : Data * HorizontalContainerListNode -> P
+    
+    HCL : Int * Int * Int * H * HorizontalContainerListT -> HorizontalContainerListNode
+    HorizontalContainerListInner : HorizontalContainerListNode -> HorizontalContainerListT
+    HorizontalContainerListEnd : HorizontalContainerListT
+    
+    HorizontalContainer : Data * ElementListNode -> H
+    
+    EL : Int * Int * Int * E * ElementListT -> ElementListNode
+    
+    ElementListInner : ElementListNode -> ElementListT
+    ElementListEnd : ElementListT
+    
+    Element : Data * ElementT -> E
+    
+    TextBox : String -> ElementT
+    List : ListItems * Int * Int -> ElementT
+    Image : String * Int * Int * String -> ElementT
+    VerticalContainer : HorizontalContainerListNode -> ElementT
+    
+    ListItemInner : String * Info * Int * ListItems -> ListItems
+    ListItemEnd : String * Info * Int -> ListItems
+
+strategies
+  f_main = ?ListItemInner(_, _, _, _) < f_main_ListItemInner + ?Element(_, _) < f_main_Element + ?EL(_, _, _, _, _) < f_main_EL + ?HorizontalContainerListInner(_) < f_main_HorizontalContainerListInner + ?Page(_, _) < f_main_Page + ?TextBox(_) < f_main_TextBox + ?PageListInner(_, _) < f_main_PageListInner + ?Image(_, _, _, _) < f_main_Image + ?Document(_, _) < f_main_Document + ?ElementListInner(_) < f_main_ElementListInner + ?ListItemEnd(_, _, _) < f_main_ListItemEnd + ?HCL(_, _, _, _, _) < f_main_HCL + ?VerticalContainer(_) < f_main_VerticalContainer + ?Abs() < f_main_Abs + ?HorizontalContainerListEnd() < f_main_HorizontalContainerListEnd + ?PageListEnd(_) < f_main_PageListEnd + ?Flex() < f_main_Flex + ?Rel() < f_main_Rel + ?AllData(_, _, _, _, _, _, _, _) < f_main_AllData + ?List(_, _, _) < f_main_List + ?FontInfo(_, _, _) < f_main_FontInfo + ?HorizontalContainer(_, _) < f_main_HorizontalContainer + ?ElementListEnd() < f_main_ElementListEnd + id
+f_1 = ?ListItemInner(_, _, _, _) < f_1_ListItemInner + ?Element(_, _) < f_1_Element + ?EL(_, _, _, _, _) < f_1_EL + ?HorizontalContainerListInner(_) < f_1_HorizontalContainerListInner + ?Page(_, _) < f_1_Page + ?TextBox(_) < f_1_TextBox + ?PageListInner(_, _) < f_1_PageListInner + ?Image(_, _, _, _) < f_1_Image + ?Document(_, _) < f_1_Document + ?ElementListInner(_) < f_1_ElementListInner + ?ListItemEnd(_, _, _) < f_1_ListItemEnd + ?HCL(_, _, _, _, _) < f_1_HCL + ?VerticalContainer(_) < f_1_VerticalContainer + ?Abs() < f_1_Abs + ?HorizontalContainerListEnd() < f_1_HorizontalContainerListEnd + ?PageListEnd(_) < f_1_PageListEnd + ?Flex() < f_1_Flex + ?Rel() < f_1_Rel + ?AllData(_, _, _, _, _, _, _, _) < f_1_AllData + ?List(_, _, _) < f_1_List + ?FontInfo(_, _, _) < f_1_FontInfo + ?HorizontalContainer(_, _) < f_1_HorizontalContainer + ?ElementListEnd() < f_1_ElementListEnd + id
+f_0_1 = ?ListItemInner(_, _, _, _) < f_0_1_ListItemInner + ?Element(_, _) < f_0_1_Element + ?EL(_, _, _, _, _) < f_0_1_EL + ?HorizontalContainerListInner(_) < f_0_1_HorizontalContainerListInner + ?Page(_, _) < f_0_1_Page + ?TextBox(_) < f_0_1_TextBox + ?PageListInner(_, _) < f_0_1_PageListInner + ?Image(_, _, _, _) < f_0_1_Image + ?Document(_, _) < f_0_1_Document + ?ElementListInner(_) < f_0_1_ElementListInner + ?ListItemEnd(_, _, _) < f_0_1_ListItemEnd + ?HCL(_, _, _, _, _) < f_0_1_HCL + ?VerticalContainer(_) < f_0_1_VerticalContainer + ?Abs() < f_0_1_Abs + ?HorizontalContainerListEnd() < f_0_1_HorizontalContainerListEnd + ?PageListEnd(_) < f_0_1_PageListEnd + ?Flex() < f_0_1_Flex + ?Rel() < f_0_1_Rel + ?AllData(_, _, _, _, _, _, _, _) < f_0_1_AllData + ?List(_, _, _) < f_0_1_List + ?FontInfo(_, _, _) < f_0_1_FontInfo + ?HorizontalContainer(_, _) < f_0_1_HorizontalContainer + ?ElementListEnd() < f_0_1_ElementListEnd + id
+f_2_3_4 = ?ListItemInner(_, _, _, _) < f_2_3_4_ListItemInner + ?Element(_, _) < f_2_3_4_Element + ?EL(_, _, _, _, _) < f_2_3_4_EL + ?HorizontalContainerListInner(_) < f_2_3_4_HorizontalContainerListInner + ?Page(_, _) < f_2_3_4_Page + ?TextBox(_) < f_2_3_4_TextBox + ?PageListInner(_, _) < f_2_3_4_PageListInner + ?Image(_, _, _, _) < f_2_3_4_Image + ?Document(_, _) < f_2_3_4_Document + ?ElementListInner(_) < f_2_3_4_ElementListInner + ?ListItemEnd(_, _, _) < f_2_3_4_ListItemEnd + ?HCL(_, _, _, _, _) < f_2_3_4_HCL + ?VerticalContainer(_) < f_2_3_4_VerticalContainer + ?Abs() < f_2_3_4_Abs + ?HorizontalContainerListEnd() < f_2_3_4_HorizontalContainerListEnd + ?PageListEnd(_) < f_2_3_4_PageListEnd + ?Flex() < f_2_3_4_Flex + ?Rel() < f_2_3_4_Rel + ?AllData(_, _, _, _, _, _, _, _) < f_2_3_4_AllData + ?List(_, _, _) < f_2_3_4_List + ?FontInfo(_, _, _) < f_2_3_4_FontInfo + ?HorizontalContainer(_, _) < f_2_3_4_HorizontalContainer + ?ElementListEnd() < f_2_3_4_ElementListEnd + id
+f_1_2_3_4 = ?ListItemInner(_, _, _, _) < f_1_2_3_4_ListItemInner + ?Element(_, _) < f_1_2_3_4_Element + ?EL(_, _, _, _, _) < f_1_2_3_4_EL + ?HorizontalContainerListInner(_) < f_1_2_3_4_HorizontalContainerListInner + ?Page(_, _) < f_1_2_3_4_Page + ?TextBox(_) < f_1_2_3_4_TextBox + ?PageListInner(_, _) < f_1_2_3_4_PageListInner + ?Image(_, _, _, _) < f_1_2_3_4_Image + ?Document(_, _) < f_1_2_3_4_Document + ?ElementListInner(_) < f_1_2_3_4_ElementListInner + ?ListItemEnd(_, _, _) < f_1_2_3_4_ListItemEnd + ?HCL(_, _, _, _, _) < f_1_2_3_4_HCL + ?VerticalContainer(_) < f_1_2_3_4_VerticalContainer + ?Abs() < f_1_2_3_4_Abs + ?HorizontalContainerListEnd() < f_1_2_3_4_HorizontalContainerListEnd + ?PageListEnd(_) < f_1_2_3_4_PageListEnd + ?Flex() < f_1_2_3_4_Flex + ?Rel() < f_1_2_3_4_Rel + ?AllData(_, _, _, _, _, _, _, _) < f_1_2_3_4_AllData + ?List(_, _, _) < f_1_2_3_4_List + ?FontInfo(_, _, _) < f_1_2_3_4_FontInfo + ?HorizontalContainer(_, _) < f_1_2_3_4_HorizontalContainer + ?ElementListEnd() < f_1_2_3_4_ElementListEnd + id
+f_0 = ?ListItemInner(_, _, _, _) < f_0_ListItemInner + ?Element(_, _) < f_0_Element + ?EL(_, _, _, _, _) < f_0_EL + ?HorizontalContainerListInner(_) < f_0_HorizontalContainerListInner + ?Page(_, _) < f_0_Page + ?TextBox(_) < f_0_TextBox + ?PageListInner(_, _) < f_0_PageListInner + ?Image(_, _, _, _) < f_0_Image + ?Document(_, _) < f_0_Document + ?ElementListInner(_) < f_0_ElementListInner + ?ListItemEnd(_, _, _) < f_0_ListItemEnd + ?HCL(_, _, _, _, _) < f_0_HCL + ?VerticalContainer(_) < f_0_VerticalContainer + ?Abs() < f_0_Abs + ?HorizontalContainerListEnd() < f_0_HorizontalContainerListEnd + ?PageListEnd(_) < f_0_PageListEnd + ?Flex() < f_0_Flex + ?Rel() < f_0_Rel + ?AllData(_, _, _, _, _, _, _, _) < f_0_AllData + ?List(_, _, _) < f_0_List + ?FontInfo(_, _, _) < f_0_FontInfo + ?HorizontalContainer(_, _) < f_0_HorizontalContainer + ?ElementListEnd() < f_0_ElementListEnd + id
+f_main_ListItemInner = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-positions); ListItemInner(id, f_main, id, f_0_1); try(r-set-font); ListItemInner(id, id, id, f_2_3_4); try(r-compute-height)
+f_main_Element = try(r-resolve-relative-width); try(r-compute-positions); Element(f_main, f_0_1); try(r-resolve-flex-width); try(r-set-font); Element(id, f_2_3_4); try(r-compute-height)
+f_main_EL = EL(id, id, id, f_0, f_0); try(r-resolve-flex-width); try(r-resolve-relative-width); EL(id, id, id, f_1_2_3_4, f_1); try(r-compute-positions); try(r-set-font); EL(id, id, id, id, f_2_3_4); try(r-compute-height)
+f_main_HorizontalContainerListInner = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); HorizontalContainerListInner(f_main); try(r-compute-positions); try(r-set-font)
+f_main_Page = Page(id, f_0); try(r-resolve-flex-width); try(r-resolve-relative-width); try(r-compute-positions); Page(id, f_1_2_3_4); try(r-compute-height); Page(f_main, id); try(r-set-font)
+f_main_TextBox = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_main_PageListInner = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); try(r-compute-positions); PageListInner(f_0_1, f_0_1); try(r-set-font); PageListInner(f_2_3_4, f_2_3_4)
+f_main_Image = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_main_Document = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); try(r-compute-positions); Document(f_main, f_0_1); try(r-set-font); Document(id, f_2_3_4)
+f_main_ElementListInner = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); ElementListInner(f_main); try(r-compute-positions); try(r-set-font)
+f_main_ListItemEnd = try(r-resolve-relative-width); try(r-resolve-flex-width); ListItemEnd(id, f_main, id); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_main_HCL = HCL(id, id, id, f_0, f_0); try(r-resolve-flex-width); try(r-resolve-relative-width); HCL(id, id, id, f_1_2_3_4, f_1); try(r-compute-positions); try(r-set-font); HCL(id, id, id, id, f_2_3_4); try(r-compute-height)
+f_main_VerticalContainer = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); VerticalContainer(f_main); try(r-compute-positions); try(r-set-font)
+f_main_Abs = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_main_HorizontalContainerListEnd = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_main_PageListEnd = PageListEnd(f_0_1); try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); try(r-compute-positions); try(r-set-font); PageListEnd(f_2_3_4)
+f_main_Flex = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_main_Rel = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_main_AllData = try(r-resolve-relative-width); try(r-resolve-flex-width); AllData(id, id, id, id, id, id, f_main, id); try(r-compute-height); try(r-compute-positions); AllData(id, id, id, id, id, f_main, id, id); try(r-set-font)
+f_main_List = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); List(f_main, id, id); try(r-compute-positions); try(r-set-font)
+f_main_FontInfo = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_main_HorizontalContainer = HorizontalContainer(id, f_0); try(r-resolve-flex-width); try(r-resolve-relative-width); HorizontalContainer(id, f_1); try(r-compute-positions); HorizontalContainer(f_main, id); try(r-set-font); HorizontalContainer(id, f_2_3_4); try(r-compute-height)
+f_main_ElementListEnd = try(r-resolve-relative-width); try(r-resolve-flex-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_1_ListItemInner = try(r-resolve-relative-width); ListItemInner(id, f_1, id, f_1)
+f_1_Element = try(r-resolve-relative-width); Element(f_1, f_1)
+f_1_EL = try(r-resolve-relative-width); EL(id, id, id, f_1, f_1)
+f_1_HorizontalContainerListInner = try(r-resolve-relative-width); HorizontalContainerListInner(f_1)
+f_1_Page = try(r-resolve-relative-width); Page(f_1, f_1)
+f_1_TextBox = try(r-resolve-relative-width)
+f_1_PageListInner = try(r-resolve-relative-width); PageListInner(f_1, f_1)
+f_1_Image = try(r-resolve-relative-width)
+f_1_Document = try(r-resolve-relative-width); Document(f_1, f_1)
+f_1_ElementListInner = try(r-resolve-relative-width); ElementListInner(f_1)
+f_1_ListItemEnd = try(r-resolve-relative-width); ListItemEnd(id, f_1, id)
+f_1_HCL = try(r-resolve-relative-width); HCL(id, id, id, f_1, f_1)
+f_1_VerticalContainer = try(r-resolve-relative-width); VerticalContainer(f_1)
+f_1_Abs = try(r-resolve-relative-width)
+f_1_HorizontalContainerListEnd = try(r-resolve-relative-width)
+f_1_PageListEnd = PageListEnd(f_1); try(r-resolve-relative-width)
+f_1_Flex = try(r-resolve-relative-width)
+f_1_Rel = try(r-resolve-relative-width)
+f_1_AllData = try(r-resolve-relative-width); AllData(id, id, id, id, id, f_1, f_1, id)
+f_1_List = try(r-resolve-relative-width); List(f_1, id, id)
+f_1_FontInfo = try(r-resolve-relative-width)
+f_1_HorizontalContainer = try(r-resolve-relative-width); HorizontalContainer(f_1, f_1)
+f_1_ElementListEnd = try(r-resolve-relative-width)
+f_0_1_ListItemInner = try(r-resolve-relative-width); try(r-resolve-flex-width); ListItemInner(id, f_0_1, id, f_0_1)
+f_0_1_Element = try(r-resolve-relative-width); Element(f_0_1, f_0_1); try(r-resolve-flex-width)
+f_0_1_EL = EL(id, id, id, f_0, f_0); try(r-resolve-flex-width); try(r-resolve-relative-width); EL(id, id, id, f_1, f_1)
+f_0_1_HorizontalContainerListInner = try(r-resolve-relative-width); try(r-resolve-flex-width); HorizontalContainerListInner(f_0_1)
+f_0_1_Page = Page(id, f_0); try(r-resolve-flex-width); try(r-resolve-relative-width); Page(f_0_1, f_1)
+f_0_1_TextBox = try(r-resolve-relative-width); try(r-resolve-flex-width)
+f_0_1_PageListInner = try(r-resolve-relative-width); try(r-resolve-flex-width); PageListInner(f_0_1, f_0_1)
+f_0_1_Image = try(r-resolve-relative-width); try(r-resolve-flex-width)
+f_0_1_Document = try(r-resolve-relative-width); try(r-resolve-flex-width); Document(f_0_1, f_0_1)
+f_0_1_ElementListInner = try(r-resolve-relative-width); try(r-resolve-flex-width); ElementListInner(f_0_1)
+f_0_1_ListItemEnd = try(r-resolve-relative-width); try(r-resolve-flex-width); ListItemEnd(id, f_0_1, id)
+f_0_1_HCL = HCL(id, id, id, f_0, f_0); try(r-resolve-flex-width); try(r-resolve-relative-width); HCL(id, id, id, f_1, f_1)
+f_0_1_VerticalContainer = try(r-resolve-relative-width); try(r-resolve-flex-width); VerticalContainer(f_0_1)
+f_0_1_Abs = try(r-resolve-relative-width); try(r-resolve-flex-width)
+f_0_1_HorizontalContainerListEnd = try(r-resolve-relative-width); try(r-resolve-flex-width)
+f_0_1_PageListEnd = PageListEnd(f_0_1); try(r-resolve-relative-width); try(r-resolve-flex-width)
+f_0_1_Flex = try(r-resolve-relative-width); try(r-resolve-flex-width)
+f_0_1_Rel = try(r-resolve-relative-width); try(r-resolve-flex-width)
+f_0_1_AllData = try(r-resolve-relative-width); try(r-resolve-flex-width); AllData(id, id, id, id, id, f_0_1, f_0_1, id)
+f_0_1_List = try(r-resolve-relative-width); try(r-resolve-flex-width); List(f_0_1, id, id)
+f_0_1_FontInfo = try(r-resolve-relative-width); try(r-resolve-flex-width)
+f_0_1_HorizontalContainer = HorizontalContainer(id, f_0); try(r-resolve-flex-width); try(r-resolve-relative-width); HorizontalContainer(f_0_1, f_1)
+f_0_1_ElementListEnd = try(r-resolve-relative-width); try(r-resolve-flex-width)
+f_2_3_4_ListItemInner = try(r-compute-positions); ListItemInner(id, f_2_3_4, id, id); try(r-set-font); ListItemInner(id, id, id, f_2_3_4); try(r-compute-height)
+f_2_3_4_Element = try(r-compute-positions); Element(f_2_3_4, id); try(r-set-font); Element(id, f_2_3_4); try(r-compute-height)
+f_2_3_4_EL = EL(id, id, id, f_2_3_4, id); try(r-compute-positions); try(r-set-font); EL(id, id, id, id, f_2_3_4); try(r-compute-height)
+f_2_3_4_HorizontalContainerListInner = try(r-compute-height); HorizontalContainerListInner(f_2_3_4); try(r-compute-positions); try(r-set-font)
+f_2_3_4_Page = try(r-compute-positions); Page(id, f_2_3_4); try(r-compute-height); Page(f_2_3_4, id); try(r-set-font)
+f_2_3_4_TextBox = try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_2_3_4_PageListInner = try(r-compute-height); try(r-compute-positions); try(r-set-font); PageListInner(f_2_3_4, f_2_3_4)
+f_2_3_4_Image = try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_2_3_4_Document = try(r-compute-height); try(r-compute-positions); Document(f_2_3_4, id); try(r-set-font); Document(id, f_2_3_4)
+f_2_3_4_ElementListInner = try(r-compute-height); ElementListInner(f_2_3_4); try(r-compute-positions); try(r-set-font)
+f_2_3_4_ListItemEnd = ListItemEnd(id, f_2_3_4, id); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_2_3_4_HCL = HCL(id, id, id, f_2_3_4, id); try(r-compute-positions); try(r-set-font); HCL(id, id, id, id, f_2_3_4); try(r-compute-height)
+f_2_3_4_VerticalContainer = try(r-compute-height); VerticalContainer(f_2_3_4); try(r-compute-positions); try(r-set-font)
+f_2_3_4_Abs = try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_2_3_4_HorizontalContainerListEnd = try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_2_3_4_PageListEnd = try(r-compute-height); try(r-compute-positions); try(r-set-font); PageListEnd(f_2_3_4)
+f_2_3_4_Flex = try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_2_3_4_Rel = try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_2_3_4_AllData = AllData(id, id, id, id, id, id, f_2_3_4, id); try(r-compute-height); try(r-compute-positions); AllData(id, id, id, id, id, f_2_3_4, id, id); try(r-set-font)
+f_2_3_4_List = try(r-compute-height); List(f_2_3_4, id, id); try(r-compute-positions); try(r-set-font)
+f_2_3_4_FontInfo = try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_2_3_4_HorizontalContainer = try(r-compute-positions); HorizontalContainer(f_2_3_4, id); try(r-set-font); HorizontalContainer(id, f_2_3_4); try(r-compute-height)
+f_2_3_4_ElementListEnd = try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_ListItemInner = try(r-resolve-relative-width); try(r-compute-positions); ListItemInner(id, f_1_2_3_4, id, f_1); try(r-set-font); ListItemInner(id, id, id, f_2_3_4); try(r-compute-height)
+f_1_2_3_4_Element = try(r-resolve-relative-width); try(r-compute-positions); Element(f_1_2_3_4, f_1); try(r-set-font); Element(id, f_2_3_4); try(r-compute-height)
+f_1_2_3_4_EL = try(r-resolve-relative-width); EL(id, id, id, f_1_2_3_4, f_1); try(r-compute-positions); try(r-set-font); EL(id, id, id, id, f_2_3_4); try(r-compute-height)
+f_1_2_3_4_HorizontalContainerListInner = try(r-resolve-relative-width); try(r-compute-height); HorizontalContainerListInner(f_1_2_3_4); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_Page = try(r-resolve-relative-width); try(r-compute-positions); Page(id, f_1_2_3_4); try(r-compute-height); Page(f_1_2_3_4, id); try(r-set-font)
+f_1_2_3_4_TextBox = try(r-resolve-relative-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_PageListInner = try(r-resolve-relative-width); try(r-compute-height); try(r-compute-positions); PageListInner(f_1, f_1); try(r-set-font); PageListInner(f_2_3_4, f_2_3_4)
+f_1_2_3_4_Image = try(r-resolve-relative-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_Document = try(r-resolve-relative-width); try(r-compute-height); try(r-compute-positions); Document(f_1_2_3_4, f_1); try(r-set-font); Document(id, f_2_3_4)
+f_1_2_3_4_ElementListInner = try(r-resolve-relative-width); try(r-compute-height); ElementListInner(f_1_2_3_4); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_ListItemEnd = try(r-resolve-relative-width); ListItemEnd(id, f_1_2_3_4, id); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_HCL = try(r-resolve-relative-width); HCL(id, id, id, f_1_2_3_4, f_1); try(r-compute-positions); try(r-set-font); HCL(id, id, id, id, f_2_3_4); try(r-compute-height)
+f_1_2_3_4_VerticalContainer = try(r-resolve-relative-width); try(r-compute-height); VerticalContainer(f_1_2_3_4); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_Abs = try(r-resolve-relative-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_HorizontalContainerListEnd = try(r-resolve-relative-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_PageListEnd = PageListEnd(f_1); try(r-resolve-relative-width); try(r-compute-height); try(r-compute-positions); try(r-set-font); PageListEnd(f_2_3_4)
+f_1_2_3_4_Flex = try(r-resolve-relative-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_Rel = try(r-resolve-relative-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_AllData = try(r-resolve-relative-width); AllData(id, id, id, id, id, id, f_1_2_3_4, id); try(r-compute-height); try(r-compute-positions); AllData(id, id, id, id, id, f_1_2_3_4, id, id); try(r-set-font)
+f_1_2_3_4_List = try(r-resolve-relative-width); try(r-compute-height); List(f_1_2_3_4, id, id); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_FontInfo = try(r-resolve-relative-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_1_2_3_4_HorizontalContainer = try(r-resolve-relative-width); HorizontalContainer(id, f_1); try(r-compute-positions); HorizontalContainer(f_1_2_3_4, id); try(r-set-font); HorizontalContainer(id, f_2_3_4); try(r-compute-height)
+f_1_2_3_4_ElementListEnd = try(r-resolve-relative-width); try(r-compute-height); try(r-compute-positions); try(r-set-font)
+f_0_ListItemInner = try(r-resolve-flex-width); ListItemInner(id, f_0, id, f_0)
+f_0_Element = Element(f_0, f_0); try(r-resolve-flex-width)
+f_0_EL = EL(id, id, id, f_0, f_0); try(r-resolve-flex-width)
+f_0_HorizontalContainerListInner = try(r-resolve-flex-width); HorizontalContainerListInner(f_0)
+f_0_Page = Page(id, f_0); try(r-resolve-flex-width); Page(f_0, id)
+f_0_TextBox = try(r-resolve-flex-width)
+f_0_PageListInner = try(r-resolve-flex-width); PageListInner(f_0, f_0)
+f_0_Image = try(r-resolve-flex-width)
+f_0_Document = try(r-resolve-flex-width); Document(f_0, f_0)
+f_0_ElementListInner = try(r-resolve-flex-width); ElementListInner(f_0)
+f_0_ListItemEnd = try(r-resolve-flex-width); ListItemEnd(id, f_0, id)
+f_0_HCL = HCL(id, id, id, f_0, f_0); try(r-resolve-flex-width)
+f_0_VerticalContainer = try(r-resolve-flex-width); VerticalContainer(f_0)
+f_0_Abs = try(r-resolve-flex-width)
+f_0_HorizontalContainerListEnd = try(r-resolve-flex-width)
+f_0_PageListEnd = PageListEnd(f_0); try(r-resolve-flex-width)
+f_0_Flex = try(r-resolve-flex-width)
+f_0_Rel = try(r-resolve-flex-width)
+f_0_AllData = try(r-resolve-flex-width); AllData(id, id, id, id, id, f_0, f_0, id)
+f_0_List = try(r-resolve-flex-width); List(f_0, id, id)
+f_0_FontInfo = try(r-resolve-flex-width)
+f_0_HorizontalContainer = HorizontalContainer(id, f_0); try(r-resolve-flex-width); HorizontalContainer(f_0, id)
+f_0_ElementListEnd = try(r-resolve-flex-width)
+  
+  main: list -> result
+  where
+  	[_, filename | _] := list
+	; inp := <open(!filename)>
+	; result := <f_main> inp
+  
+rules
+  r-resolve-flex-width :
+    Page(AllData(px, py, h, _, rw, Flex(), info, bgColor), HCL(mw, ah, pw, hc, hcs)) ->
+      Page(AllData(px, py, h, mw, rw, Flex(), info, bgColor), HCL(mw, ah, pw, hc, hcs))
+      
+  r-resolve-flex-width :
+    HCL(_, ah, pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), es), HorizontalContainerListEnd()) ->
+      HCL(w, ah, pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), es), HorizontalContainerListEnd())
+  
+  r-resolve-flex-width :
+    HCL(_, ah, pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), es), HorizontalContainerListInner(HCL(nw, nh, npw, nc, nn))) ->
+      HCL((<max> (w, nw)), ah, pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), es), HorizontalContainerListInner(HCL(nw, nh, npw, nc, nn)))
+      
+  r-resolve-flex-width :
+    HorizontalContainer(AllData(px, py, h, _, rw, Flex(), info, bgColor), EL(aw, mh, pw, e, es)) ->
+      HorizontalContainer(AllData(px, py, h, aw, rw, Flex(), info, bgColor), EL(aw, mh, pw, e, es))
+      
+  r-resolve-flex-width :
+    EL(_, mh, pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListEnd()) ->
+      EL(w, mh, pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListEnd())
+      
+  r-resolve-flex-width :
+    EL(_, mh, pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListInner(EL(nw, nh, npw, ne, nn))) ->
+      EL((<add> (w, nw)), mh, pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListInner(EL(nw, nh, npw, ne, nn)))
+      
+  r-resolve-flex-width :
+    Element(AllData(px, py, h, _, rw, Flex(), info, bgColor), VerticalContainer(HCL(mw, ah, pw, hc, hcs))) ->
+      Element(AllData(px, py, h, mw, rw, Flex(), info, bgColor), VerticalContainer(HCL(mw, ah, pw, hc, hcs))) 
+
+
+
+
+
+  r-resolve-relative-width :
+    Page(AllData(px, py, h, w, rw, t, info, bgColor), HCL(mw, ah, _, hc, hcs)) ->
+      Page(AllData(px, py, h, w, rw, t, info, bgColor), HCL(mw, ah, w, hc, hcs))
+    
+  r-resolve-relative-width :
+    HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, _, hrw, Rel(), hinfo, hbgColor), es), HorizontalContainerListEnd()) ->
+      HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, (<mul> (pw, hrw)), hrw, Rel(), hinfo, hbgColor), es), HorizontalContainerListEnd())
+      
+  r-resolve-relative-width :
+    HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, _, hrw, Rel(), hinfo, hbgColor), es), HorizontalContainerListInner(HCL(nmw, nah, _, nhc, nhcs))) ->
+      HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, (<mul> (pw, hrw)), hrw, Rel(), hinfo, hbgColor), es), HorizontalContainerListInner(HCL(nmw, nah, pw, nhc, nhcs)))
+      
+  r-resolve-relative-width :
+    HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, Flex(), hinfo, hbgColor), es), HorizontalContainerListInner(HCL(nmw, nah, _, nhc, nhcs))) ->
+      HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, Flex(), hinfo, hbgColor), es), HorizontalContainerListInner(HCL(nmw, nah, pw, nhc, nhcs)))
+
+  r-resolve-relative-width :
+    HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, Abs(), hinfo, hbgColor), es), HorizontalContainerListInner(HCL(nmw, nah, _, nhc, nhcs))) ->
+      HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, Abs(), hinfo, hbgColor), es), HorizontalContainerListInner(HCL(nmw, nah, pw, nhc, nhcs)))
+      
+  r-resolve-relative-width :
+    HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), EL(aw, mh, _, e, es)) ->
+      HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), EL(aw, mh, w, e, es))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Rel(), info, bgColor), TextBox(s)), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, (<mul> (rw, pw)), rw, Rel(), info, bgColor), TextBox(s)), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), TextBox(s)), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), TextBox(s)), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), TextBox(s)), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), TextBox(s)), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Rel(), info, bgColor), List(items, im, lsz)), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, (<mul> (rw, pw)), rw, Rel(), info, bgColor), List(items, im, lsz)), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), List(items, im, lsz)), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), List(items, im, lsz)), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), List(items, im, lsz)), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), List(items, im, lsz)), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Rel(), info, bgColor), Image(path, ow, oh, url)), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, (<mul> (rw, pw)), rw, Rel(), info, bgColor), Image(path, ow, oh, url)), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), Image(path, ow, oh, url)), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), Image(path, ow, oh, url)), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), Image(path, ow, oh, url)), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), Image(path, ow, oh, url)), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Rel(), info, bgColor), VerticalContainer(HCL(vmw, vah, vpw, vhc, vhcs))), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, (<mul> (rw, pw)), rw, Rel(), info, bgColor), VerticalContainer(HCL(vmw, vah, (<mul> (rw, pw)), vhc, vhcs))), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), VerticalContainer(HCL(vmw, vah, vpw, vhc, vhcs))), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), VerticalContainer(HCL(vmw, vah, w, vhc, vhcs))), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), VerticalContainer(HCL(vmw, vah, vpw, vhc, vhcs))), ElementListEnd()) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), VerticalContainer(HCL(vmw, vah, w, vhc, vhcs))), ElementListEnd())
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Rel(), info, bgColor), TextBox(s)), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, (<mul> (rw, pw)), rw, Rel(), info, bgColor), TextBox(s)), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), TextBox(s)), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), TextBox(s)), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), TextBox(s)), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), TextBox(s)), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Rel(), info, bgColor), List(items, im, lsz)), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, (<mul> (rw, pw)), rw, Rel(), info, bgColor), List(items, im, lsz)), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), List(items, im, lsz)), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), List(items, im, lsz)), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), List(items, im, lsz)), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), List(items, im, lsz)), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Rel(), info, bgColor), Image(path, ow, oh, url)), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, (<mul> (rw, pw)), rw, Rel(), info, bgColor), Image(path, ow, oh, url)), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), Image(path, ow, oh, url)), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), Image(path, ow, oh, url)), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), Image(path, ow, oh, url)), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), Image(path, ow, oh, url)), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Rel(), info, bgColor), VerticalContainer(HCL(vmw, vah, vpw, vhc, vhcs))), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, (<mul> (rw, pw)), rw, Rel(), info, bgColor), VerticalContainer(HCL(vmw, vah, (<mul> (rw, pw)), vhc, vhcs))), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), VerticalContainer(HCL(vmw, vah, vpw, vhc, vhcs))), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Flex(), info, bgColor), VerticalContainer(HCL(vmw, vah, w, vhc, vhcs))), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+  r-resolve-relative-width :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), VerticalContainer(HCL(vmw, vah, vpw, vhc, vhcs))), ElementListInner(EL(naw, nmh, _, ne, nes))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, Abs(), info, bgColor), VerticalContainer(HCL(vmw, vah, w, vhc, vhcs))), ElementListInner(EL(naw, nmh, pw, ne, nes)))
+      
+      
+      
+      
+    
+  r-set-font :
+    Document(info, PageListEnd(Page(AllData(px, py, h, w, rw, t, _, bgColor), hc))) ->
+      Document(info, PageListEnd(Page(AllData(px, py, h, w, rw, t, info, bgColor), hc)))
+      
+  r-set-font :
+    Document(info, PageListInner(Page(AllData(px, py, h, w, rw, t, _, bgColor), hc), ps)) ->
+      Document(info, PageListInner(Page(AllData(px, py, h, w, rw, t, info, bgColor), hc), ps))
+      
+  r-set-font :
+    PageListEnd(Page(AllData(px, py, h, w, rw, t, info, bgColor), HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, ht, _, hbgColor), e), hcs))) ->
+      PageListEnd(Page(AllData(px, py, h, w, rw, t, info, bgColor), HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, ht, info, hbgColor), e), hcs)))
+      
+  r-set-font :
+    PageListInner(Page(AllData(px, py, h, w, rw, t, info, bgColor), HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, ht, _, hbgColor), e), hcs)), PageListEnd(Page(AllData(pepx, pepy, peh, pew, perw, pet, _, pebgColor), pehc))) ->
+      PageListInner(Page(AllData(px, py, h, w, rw, t, info, bgColor), HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, ht, info, hbgColor), e), hcs)), PageListEnd(Page(AllData(pepx, pepy, peh, pew, perw, pet, info, pebgColor), pehc)))
+      
+  r-set-font :
+    PageListInner(Page(AllData(px, py, h, w, rw, t, info, bgColor), HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, ht, _, hbgColor), e), hcs)), PageListInner(Page(AllData(pepx, pepy, peh, pew, perw, pet, _, pebgColor), pehc), pln)) ->
+      PageListInner(Page(AllData(px, py, h, w, rw, t, info, bgColor), HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, ht, info, hbgColor), e), hcs)), PageListInner(Page(AllData(pepx, pepy, peh, pew, perw, pet, info, pebgColor), pehc), pln))
+      
+  r-set-font :
+    HCL(mw, ah, pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), el), HorizontalContainerListInner(HCL(nmw, nah, npw, HorizontalContainer(AllData(npx, npy, nh, nw, nrw, nt, _, nbgColor), nel), nn))) -> 
+    HCL(mw, ah, pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), el), HorizontalContainerListInner(HCL(nmw, nah, npw, HorizontalContainer(AllData(npx, npy, nh, nw, nrw, nt, info, nbgColor), nel), nn)))
+    
+  r-set-font :
+    HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), EL(aw, mh, pw, Element(AllData(epx, epy, eh, ew, erw, et, _, ebgColor), e), es)) ->
+    HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), EL(aw, mh, pw, Element(AllData(epx, epy, eh, ew, erw, et, info, ebgColor), e), es))
+    
+  r-set-font :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListInner(EL(naw, nmh, npw, Element(AllData(npx, npy, nh, nw, nrw, nt, _, nbgColor), ne), nes))) ->
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListInner(EL(naw, nmh, npw, Element(AllData(npx, npy, nh, nw, nrw, nt, info, nbgColor), ne), nes)))
+    
+  r-set-font :
+    Element(AllData(px, py, h, w, rw, t, info, bgColor), VerticalContainer(HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, ht, _, hbgColor), es), hcs))) ->
+    Element(AllData(px, py, h, w, rw, t, info, bgColor), VerticalContainer(HCL(mw, ah, pw, HorizontalContainer(AllData(hpx, hpy, hh, hw, hrw, ht, info, hbgColor), es), hcs)))
+    
+  r-set-font :
+    Element(AllData(px, py, h, w, rw, t, info, bgColor), List(ListItemEnd(s, _, ahs), im, lsz)) ->
+      Element(AllData(px, py, h, w, rw, t, info, bgColor), List(ListItemEnd(s, info, ahs), im, lsz))
+      
+  r-set-font :
+    Element(AllData(px, py, h, w, rw, t, info, bgColor), List(ListItemInner(s, _, ahs, ls), im, lsz)) ->
+      Element(AllData(px, py, h, w, rw, t, info, bgColor), List(ListItemInner(s, info, ahs, ls), im, lsz))
+      
+  r-set-font :
+    ListItemInner(s, info, ahs, ListItemEnd(es, _, eahs)) ->
+      ListItemInner(s, info, ahs, ListItemEnd(es, info, eahs))
+      
+  r-set-font :
+    ListItemInner(s, info, ahs, ListItemInner(es, _, iahs, ils)) ->
+      ListItemInner(s, info, ahs, ListItemInner(es, info, iahs, ils))
+    
+    
+    
+    
+    
+  r-compute-height :
+    Page(AllData(px, py, _, w, rw, t, info, bgColor), HCL(mw, ah, pw, hc, hcs)) ->
+      Page(AllData(px, py, ah, w, rw, t, info, bgColor), HCL(mw, ah, pw, hc, hcs))
+      
+  r-compute-height :
+    HCL(aw, _, pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), es), HorizontalContainerListEnd()) ->
+      HCL(aw, h, pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), es), HorizontalContainerListEnd())
+      
+  r-compute-height :
+    HCL(aw, _, pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), es), HorizontalContainerListInner(HCL(nw, nh, npw, nc, nn))) ->
+      HCL(aw, (<add> (h, nh)), pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), es), HorizontalContainerListInner(HCL(nw, nh, npw, nc, nn)))
+      
+  r-compute-height :
+    HorizontalContainer(AllData(px, py, _, w, rw, t, info, bgColor), EL(aw, mh, pw, e, es)) ->
+      HorizontalContainer(AllData(px, py, mh, w, rw, t, info, bgColor), EL(aw, mh, pw, e, es))
+      
+  r-compute-height :
+    EL(aw, _, pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListEnd()) ->
+      EL(aw, h, pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListEnd())
+      
+  r-compute-height :
+    EL(aw, _, pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListInner(EL(nw, nh, npw, ne, nn))) ->
+      EL(aw, (<max> (h, nh)), pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListInner(EL(nw, nh, npw, ne, nn)))
+      
+  r-compute-height :
+    Element(AllData(px, py, _, w, rw, t, FontInfo(ft, fs, fc), bgColor), TextBox(s)) -> 
+      Element(AllData(px, py, (<mul> (2, (<div> ((<mul> ((<strlen> s), fs)), w)))), w, rw, t, FontInfo(ft, fs, fc), bgColor), TextBox(s))
+      
+  r-compute-height :
+    Element(AllData(px, py, _, w, rw, t, info, bgColor), Image(path, ow, oh, url)) ->
+      Element(AllData(px, py, (<mul> (w, (<div> (oh, ow)))), w, rw, t, info, bgColor), Image(path, ow, oh, url))
+      
+  r-compute-height :
+    Element(AllData(px, py, _, w, rw, t, info, bgColor), VerticalContainer(HCL(mw, ah, pw, hc, hcs))) ->
+      Element(AllData(px, py, ah, w, rw, t, info, bgColor), VerticalContainer(HCL(mw, ah, pw, hc, hcs))) 
+      
+  r-compute-height :
+    Element(AllData(px, py, _, w, rw, t, info, bgColor), List(ListItemEnd(s, linfo, ahs), im, lsz)) ->
+      Element(AllData(px, py, (<div> ((<add> (ahs, (<mul> (im, lsz)))), w)), w, rw, t, info, bgColor), List(ListItemEnd(s, linfo, ahs), im, lsz))
+      
+  r-compute-height :
+    Element(AllData(px, py, _, w, rw, t, info, bgColor), List(ListItemInner(s, linfo, ahs, ls), im, lsz)) ->
+      Element(AllData(px, py, (<div> ((<add> (ahs, (<mul> (im, lsz)))), w)), w, rw, t, info, bgColor), List(ListItemInner(s, linfo, ahs, ls), im, lsz))
+      
+  r-compute-height :
+    ListItemEnd(s, FontInfo(ft, fs, fc), _) -> ListItemEnd(s, FontInfo(ft, fs, fc), (<mul> ((<strlen> s), fs)))
+    
+  r-compute-height :
+    ListItemInner(s, FontInfo(ft, fs, fc), _, ListItemEnd(es, einfo, eahs)) ->
+      ListItemInner(s, FontInfo(ft, fs, fc), (<add> ((<mul> ((<strlen> s), fs)), eahs)), ListItemEnd(es, einfo, eahs))
+      
+  r-compute-height :
+    ListItemInner(s, FontInfo(ft, fs, fc), _, ListItemInner(es, einfo, eahs, els)) ->
+      ListItemInner(s, FontInfo(ft, fs, fc), (<add> ((<mul> ((<strlen> s), fs)), eahs)), ListItemInner(es, einfo, eahs, els))
+  
+  
+  
+  
+  
+  r-compute-positions :
+    Page(AllData(_, _, h, w, rw, t, info, bgColor), HCL(mw, ah, pw, HorizontalContainer(AllData(_, _, hh, hw, hrw, ht, hinfo, hbgColor), es), hcs)) ->
+      Page(AllData(0, 0, h, w, rw, t, info, bgColor), HCL(mw, ah, pw, HorizontalContainer(AllData(0, 0, hh, hw, hrw, ht, hinfo, hbgColor), es), hcs))
+      
+  r-compute-positions :
+    HCL(mw, ah, pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), es), HorizontalContainerListInner(HCL(nmw, nah, npw, HorizontalContainer(AllData(_, _, nh, nw, nrw, nt, ninfo, nbgColor), nes), hcs))) ->
+      HCL(mw, ah, pw, HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), es), HorizontalContainerListInner(HCL(nmw, nah, npw, HorizontalContainer(AllData(px, (<add> (py, h)), nh, nw, nrw, nt, ninfo, nbgColor), nes), hcs)))
+      
+  r-compute-positions :
+    HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), EL(aw, mh, pw, Element(AllData(_, _, nh, nw, nrw, nt, ninfo, nbgColor), e), es)) ->
+      HorizontalContainer(AllData(px, py, h, w, rw, t, info, bgColor), EL(aw, mh, pw, Element(AllData(px, py, nh, nw, nrw, nt, ninfo, nbgColor), e), es))
+      
+  r-compute-positions :
+    EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListInner(EL(naw, nmh, npw, Element(AllData(_, _, nh, nw, nrw, nt, ninfo, nbgColor), ne), es))) ->
+      EL(aw, mh, pw, Element(AllData(px, py, h, w, rw, t, info, bgColor), e), ElementListInner(EL(naw, nmh, npw, Element(AllData((<add> (px, w)), py, nh, nw, nrw, nt, ninfo, nbgColor), ne), es)))
+      
+  r-compute-positions :
+    Element(AllData(px, py, h, w, rw, t, info, bgColor), VerticalContainer(HCL(mw, ah, pw, HorizontalContainer(AllData(_, _, nh, nw, nrw, nt, ninfo, nbgColor), es), hcs))) ->
+      Element(AllData(px, py, h, w, rw, t, info, bgColor), VerticalContainer(HCL(mw, ah, pw, HorizontalContainer(AllData(px, py, nh, nw, nrw, nt, ninfo, nbgColor), es), hcs)))
