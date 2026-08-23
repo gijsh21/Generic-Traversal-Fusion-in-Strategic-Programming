@@ -1,0 +1,51 @@
+% !TEX root = document.tex
+
+\chapter{\label{chap:related-work}Related work}
+\label{chap:rw}
+In this section, work related to tree traversal fusion is discussed. These are works that discuss fusions of any kind applied to trees (not necessarily in a strategic or functional context), and some works that discuss fusion in general.
+
+\section{Fusion in general}
+Here, we discuss some more distantly related work on fusion, showing different approaches.
+
+\subsection{Fusion in a strategic language}
+It is possible to fuse the innermost strategy (traversal) with its rules in Stratego \autocite{JohannV01}. This fusion reduces the number of times the innermost strategy has to revisit nodes by keeping track of which parts are already in a normal form (which will not change anymore). This implies that it is at least possible and feasible to optimize some traversals under some conditions in Stratego. Note, however, that this fusion is not \textit{exactly} a fusion as defined in this thesis: it does not say anything about combinations of multiple, possibly different, strategies. Instead, it only looks at a single traversal and optimizes that one traversal.
+
+\subsection{Deforestation and Circular Programming in Functional Programming}
+Research has been done on combining deforestation and circular programming to achieve fusion in functional programming.
+
+\paragraph{Deforestation}
+Many functional programs rely on the creation of intermediate data structures because functional languages do not (in general) allow for mutation. The term deforestation, then, describes the elimination of these intermediate data structures such as trees during a computation \autocite{FernandesCSP15}.
+
+\paragraph{Circular programming}
+Circular programming is the technique of using circular definitions in a lazy language and allowing the language to compute a correct and terminating evaluation order (if it exists). It has been shown that ``any algorithm that performs multiple traversals over the same data structure can be expressed in a lazy language as a single traversal circular function" \autocite{FernandesPS07}. Note that this does not necessarily imply that the number of actual performed traversals is reduced (although it can be), depending on the selected evaluation order. The only guarantee is that at least the algorithm can be \textit{expressed} as a single circular traversal.
+
+\paragraph{Combining deforestation and circular programming}
+Functions that generate intermediate data structures can and do, of course, also traverse these data structures. This means that, while the intermediate data structure may be optimized out after deforestation, the actual computing traversal does not necessarily disappear. Some research has been done on combining deforestation with circular programming to both eliminate intermediate data structures and simultaneously reduce the number of traversals needed to compute the final result \autocite{FernandesPS07}.
+
+As an example, consider the problem of replacing every node in a tree of integers with the minimum value in the tree. It is possible to replace every node with the minimum value in a single traversal by computing the minimum value lazily. Or, in other words, the nodes are all updated while traversing the tree to find the minimum, but their concrete value is only computed once the entire tree has been traversed and, as such, the minimum value has been found.
+
+Although this method of deforestation with circular programming is effective in fusing traversals, it is quite different from what has been presented in this paper. The circular programming method does not look at what the specific traversal is (top-down, bottom-up, etc.) and then reason about that traversal generically. Instead, it changes the actual functions (or what would be rewrite rules in the case of strategic programming) to use lazy computation, and in the process reduces the number of required traversals. As such, it does not provide information about the nature of these traversals themselves or how they interact with each other.
+
+Still, it may be worth investigating whether this method can work in strategic programming.
+
+\subsection{Other Fusion in Functional Programming}
+Several other fusion optimizations have been developed in functional programming. Although not directly relevant to (generic) tree traversal fusion, they are still conceptually related by virtue of performing \textit{a} fusion.
+
+\textbf{Generalized Deforestation} There is a generalization of deforestation to all first-order and higher-order functional programs. This model views all parts of a program as safe or unsafe producers or consumers, identifying fusion opportunities for subterms of any expression\cite{Chin92}. Although this generalization may not be directly relevant for the problem presented in this thesis, the concept of automatically classifying subterms as safe or unsafe may be worth investigating.
+
+\textbf{Stream fusion} Stream fusion was ``the first truly general solution" to fusion for algorithms over sequences (such as lists) in functional programming\cite{Mainland17}. Its main principle is ``transforming recursive structures into non-recursive co-structures" (i.e. streams) that can be more easily fused\cite{Mainland17}. This method has since been expanded upon in the form of generalized stream fusion, which computes a bundle of multiple different streams. This allows a choice for the most efficient representation and opens up the possibility for parallelization through Single Instruction, Multiple Data (SIMD) instructions. 
+
+We have seen that tree traversal fusion is fundamentally different from fusion for sequences such as lists, but it may still be possible to adapt these concepts to traversal fusion. For example, could analyzing a tree as its co-recursive counterpart make fusion easier? At the very least, even if these concepts cannot be directly adapted, exploring the use of SIMD instructions for tree traversal fusion could be very interesting.
+
+\section{Tree Fusion}
+Research on tree fusion that is more closely related to the topic of this thesis has also been done, although not in the context of strategic programming. We will discuss some of it here.
+
+\subsection{TreeFuser and Grafter}
+The research done on TreeFuser and Grafter has been used extensively throughout this thesis. They provide a framework for automatic traversal fusion in a C++-like imperative language, using a dependency analysis approach \cite{SakkaS017, SakkaSN019}. Refer to \autoref{sec:towards-a-solution} for a more thorough explanation.
+
+\subsection{Other ways}
+A few other approaches to tree fusion have also been developed.
+
+RETREET \cite{WangLZQ21} constructs a monadic second-order logic over trees, and uses a solver to identify fusion opportunities. The authors note that the main benefit of RETREET is that it is a more general framework with fewer limitations compared to approaches such as TreeFuser. The algorithm heuristically enumerates possible fusions, and the solver checks these for correctness. They evaluate RETREET on real-world benchmarks such as CSS minification, but only verify that the identified optimizations are correct. This approach is certainly promising, and it may also be possible to apply it to strategic programming. Of course, it would be worth verifying whether this approach can really find more fusion opportunities in the context of strategic programming, or at least facilitates the implementation of additional syntactic features.
+
+HECATE \cite{ChenLFB22} is a solver-aided Domain Specific Language (DSL). Traversals written in this DSL are translated to a counterexample-guided solver that identifies fusion opportunities. The authors compare it directly to Grafter. While they identify the same fusion opportunities, meaning the performance of the fused code is largely identical, they note that their fusion algorithm is significantly faster (on average 8.0x faster than Grafter). HECATE also provides additional interesting options, such as support for parallelization. Enabling parallelization for the render tree benchmark (used for the Grafter evaluation, as well as in this thesis) increases performance by an additional 23\%.

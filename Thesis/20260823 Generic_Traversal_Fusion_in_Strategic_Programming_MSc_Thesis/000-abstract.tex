@@ -1,0 +1,13 @@
+% !TEX root = document.tex
+
+Traversing and transforming tree-like data structures is a common occurrence in developing compilers, interpreters, and other program transformation or analysis tools. In more complex programs, multiple traversals are often performed on the same tree, leading to potentially unnecessary repeated visits of nodes. Finding opportunities to reduce repeated visits is an optimization called traversal fusion.
+
+Tree traversals are particularly common in the strategic programming paradigm. In this paradigm, the transformations that are performed are separated from the manner in which trees are traversed, enabling simple and scalable control over traversals \cite{LaemmelVV02}. We consider traversal fusion as an optimization for strategic programming languages.
+
+We developed an algorithm to perform traversal fusion in strategic programming languages. Our algorithm is based on TreeFuser and Grafter \cite{SakkaS017, SakkaSN019}, two related algorithms developed in previous work on imperative programs. The algorithm performs dependency analysis on strategic programs, and then attempts to fuse together recursive calls without introducing dependency violations in order to determine legal opportunities for traversal fusion.
+
+We developed a proof-of-concept (POC) implementation of this algorithm to work on a subset of the Stratego programming language. We evaluated this POC on a synthetic benchmark that mimics real-world usages of strategic programming, as well as a best-case scenario benchmark, to assess the viability and benefit of this optimization for strategic programming languages.
+
+In the best-case scenario benchmark, we measure a mean runtime decrease of 48\%. In a benchmark simulating rendering a web page by traversing a render tree, the total number of tree node visits is reduced by over 40\%. While we measure a similar performance benefit for this benchmark initially, we find that this is caused by code synthesis, unrelated to fusion. There is no measurable additional performance increase when enabling fusion. We determine that this is most likely caused by overhead when fusing more complex programs, or relatively expensive other parts of the program dominating total runtime.
+
+In conclusion, we find that traversal fusion is possible in strategic programming, but several factors can reduce real-world performance impact, limiting its viability as an optimization. We make suggestions to further explore this optimization in the context of strategic programming.

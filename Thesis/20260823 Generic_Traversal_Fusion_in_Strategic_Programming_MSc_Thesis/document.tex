@@ -1,0 +1,94 @@
+% Fix: From https://tex.stackexchange.com/a/508995/108670
+\RequirePackage{snapshot}
+\makeatletter
+\def\snap@providesfile#1[#2]{%
+  \wlog{File: #1 #2}%
+  \if\expandafter\snap@graphic@test\expanded{#2}@@\@nil
+    \snap@record@graphic#1\relax #2 (type ??)\@nil
+  \else
+    \expandafter\xdef\csname ver@#1\endcsname{#2}%
+  \fi
+  \endgroup
+}
+\makeatother
+
+\documentclass[twoside,a4paper,11pt]{memoir}
+\usepackage{document}
+\usepackage{minted}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\newcounter{oldtocdepth}
+\newcommand{\hidefromtoc}{%
+  \setcounter{oldtocdepth}{\value{tocdepth}}%
+  \addtocontents{toc}{\protect\setcounter{tocdepth}{-10}}%
+}
+\newcommand{\unhidefromtoc}{%
+  \addtocontents{toc}{\protect\setcounter{tocdepth}{\value{oldtocdepth}}}%
+}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{num_color}{HTML}{0A6E2B}
+\definecolor{kw_alt}{HTML}{1817A2}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% Add \@ _before_ the terminating period of the sentence (`UI\@. Test`)
+% to allow inter-sentence spacing when the sentence ends with a capital letter.
+
+\addbibresource{document.bib}
+\addbibresource{researchr.bib}
+
+\input{metadata}
+
+\begin{document}
+
+\frontmatter
+\thispagestyle{empty}
+\maketitle
+\makeformaltitlepages{\input{000-abstract}}
+
+\include{010-preface}
+
+\cleardoublepage\tableofcontents
+\cleardoublepage\mainmatter{}
+
+\include{100-introduction}
+\include{200-background}
+\include{300-solution}
+\include{500-evaluation}
+\include{600-related-work}
+\include{700-conclusion}
+
+\printbibliography{}
+
+\include{acronyms}
+
+%\appendix
+%\def\chaptername{Appendix}
+%\include{A00-appendix}
+
+\end{document}
